@@ -42,14 +42,17 @@ document.write("Exercise 3: Reverse a String: \n==========\n <br></br>");
 let sentence = "The quick brown fox jumps over the lazy dog";
 
 const reverseString = (str) => {
-  let splitString = str.split("");
-  let reverseArray = splitString.reverse();
-  let joinArray = reverseArray.join("");
-  return joinArray;
+  let splitString = str.split("").reverse().join("");
+  return splitString;
 };
 
+let jasonSolution = "";
+sentence.split(" ").forEach((word) => {
+  jasonSolution += reverseString(word) + " ";
+});
+
 document.write(`Foward: ${sentence} <br></br>`);
-document.write(`Reverse: ${reverseString(sentence)}`);
+document.write(`Reverse: ${jasonSolution}`);
 
 document.write(`<br></br>`);
 document.write(`<br></br>`);
@@ -57,21 +60,24 @@ document.write(`<br></br>`);
 //Exercise 4 Section
 document.write("Exercise 4: Parse a CSV: \n==========\n <br></br>");
 
+//Start with the following code:
+
 let csvData = "name,age\nFrodo,50\nSam,38\nMerry,36\nPippin,26";
 
-const parseCSV = (str) => {
-  let splitString = str.split("\n");
-  let headers = splitString[0].split(",");
-  let result = [];
-  for (let i = 1; i < splitString.length; i++) {
-    let obj = {};
-    let currentLine = splitString[i].split(",");
-    for (let j = 0; j < headers.length; j++) {
-      obj[headers[j]] = currentLine[j];
+function parseCSV(csvData) {
+  let splitData = csvData.split("\n");
+  let headers = splitData[0].split(",");
+  let data = splitData.slice(1);
+  let parsedData = [];
+  data.forEach((row) => {
+    let rowData = row.split(",");
+    let obj = { name: rowData[0], age: rowData[1] };
+    for (let i = 0; i < headers.length; i++) {
+      obj[headers[i]] = rowData[i];
     }
-    result.push(obj);
-  }
-  return result;
-};
+    parsedData.push(obj);
+  });
+  return parsedData;
+}
 
-document.write(parseCSV(csvData));
+document.write(JSON.stringify(parseCSV(csvData), null, 2));
